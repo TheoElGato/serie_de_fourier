@@ -1,0 +1,11 @@
+```py
+from generator import Figure
+
+f = Figure(dt, coords = 'int', tri = None) # coords : ('int', 'float') et tri : (None-> ordre des traits, 'nsoe'-> ordre haut en bas)
+f.open('image.svg') # Ouvre l'image en svg, calcule les points et les met en accès par la méthode suivante :
+l = len(f) # Longueur de la liste de points
+first = f[0] # Premier point ou f[n], n < len(f)
+f.saveas('file.pts') # Enregistre la liste des points sous le fichier indiqué (enregistre aussi si mode float ou int)
+f.open('file.pts') # même ligne que pour ouvrir une image, mais sans calcules, récupère la liste de points, écrase les précédents et les mets en accès libre
+f.TraceShape(pause = 1.0(ms), color = 'white') # Affiche sur une fenêtre tkinter les points, dans l'ordre généré. Couleur et intervalle de rafraichissement configurables
+```
