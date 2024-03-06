@@ -7,7 +7,7 @@ from vecteur import *
 
 class Dessin:
     def __init__(self, screen, precision, figure):
-        self.precision = precision
+        self.precision = precision*2+1
         self.para = []
         self.draw = []
         self.screen = screen
