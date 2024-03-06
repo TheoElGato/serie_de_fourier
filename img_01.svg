@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300pt" height="300pt" viewBox="0 0 300 300" version="1.2">
 	<g id="surface1">
-	<polygon points="80,30 90,30 100,30 99,40 98,50 97,60 96,70 95,80 94,90 93,100 91,110, 80,160" fill="transparent" stroke="black"/>
+	<polygon points="100,0 300,0 300,100 100,100" fill="transparent" stroke="black"/>
 	</g>
 </svg>

@@ -15,15 +15,10 @@ running = True
 dt = 0
 t = 0
 
-presition = 500
-k = 0
-draw = []
-
-print(config)
 f = Figure(config['dp'], coords='float', tri=None)
 f.open(config['path'])
 figure = f.points
-path = dessin.Dessin(screen, int(len(figure) * config['nbVect'] * config['']), figure)
+path = dessin.Dessin(screen, int(len(figure) * config['nbVect'] * config['coefVect']), figure)
 
 while running:
     # poll for events
