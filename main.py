@@ -3,7 +3,9 @@ import dessin
 from settings import Settings
 from dessin import *
 from vecteur import *
-from forme import *
+
+s = Settings()
+config = s.wait()
 
 # pygame setup
 pygame.init()
@@ -17,9 +19,11 @@ presition = 500
 k = 0
 draw = []
 
-
-path = dessin.Dessin(screen, 15, figure)
-
+print(config)
+f = Figure(config['dp'], coords='float', tri=None)
+f.open(config['path'])
+figure = f.points
+path = dessin.Dessin(screen, int(len(figure) * config['nbVect'] * config['']), figure)
 
 while running:
     # poll for events
@@ -32,7 +36,6 @@ while running:
     screen.fill("white")
 
     path.draw_figure(t)
-
 
     # flip() the display to put your work on screen
     pygame.display.flip()
