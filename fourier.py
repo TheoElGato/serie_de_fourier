@@ -28,7 +28,7 @@ def dft(x):
     for n in range(N):
       phi = (TWO_PI * k * n) / N
       c = Complex(cos(phi), -sin(phi))
-      sum.add(x[n].mult(c));
+      sum.add(x[n].mult(c))
 
     sum.re = sum.re / N
     sum.im = sum.im / N
