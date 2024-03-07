@@ -38,6 +38,9 @@ class Figure:
     def __len__(self):
         return len(self.points) # Nombre de points
 
+    def __iter__(self):
+        return self.points
+
     ######################################
     ## Traitement de fichier            ##
     ######################################
