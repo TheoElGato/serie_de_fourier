@@ -81,15 +81,11 @@ while running:
     if keys[pygame.K_s] and nbvec > 0:
         nbvec -= 1
 
-
-
-
     dt = TWO_PI / len(fourierX)
     time += dt
     if time > TWO_PI:
       time = 0
       path = []
-
 
     pygame.display.flip()
     clock.tick(60)
