@@ -139,7 +139,8 @@ class Figure:
         # On récupère toutes les polyline, à savoir, un ensemble de ligne
         elements = self.doc.getElementsByTagName("polyline")
         for i in elements:
-            pts = i.getAttribute('points').split(' ')
+            line = i.getAttribute('points').replace(', ', ',')
+            pts = line.split(' ')
             for p in range(len(pts)):
                 pts[p] = [float(pts[p].split(',')[0]),
                           float(pts[p].split(',')[1])] # On détermine mes coordonées des self.points
@@ -150,7 +151,8 @@ class Figure:
         # On récupère les polygones
         elements = self.doc.getElementsByTagName("polygon")
         for i in elements:
-            pts = i.getAttribute('points').split(' ')
+            line = i.getAttribute('points').replace(', ', ',')
+            pts = line.split(' ')
             for p in range(len(pts)):
                 pts[p] = [float(pts[p].split(',')[0]),
                           float(pts[p].split(',')[1])]
@@ -175,6 +177,16 @@ class Figure:
                 self.lines.append([ln[p], ln[p+1]]) # Enregistrement des segments
             self.lines.append([ln[-1], ln[0]]) # Fermeture de la forme
 
+        i = 0
+        while 1:
+            try:
+                if self.lines[i][-1] != self.lines[i+1][0]:
+                    self.lines.insert(i+1, [self.lines[i][-1], self.lines[i+1][0]])
+                    i += 1
+            except IndexError:
+                break
+            i += 1
+
         for line in self.lines: ## A la fin de la récupération des segments, on calcule l'ensemble des points
             self.points += self.GenerateAccuracyLine(line)
 
@@ -191,7 +203,7 @@ class Figure:
         segw, segh = line[1][0] - line[0][0], line[1][1] - line[0][1] # Calcul la largeur projecté sur l'axe x et y du segment
         length = sqrt((segw**2) + (segh**2)) # Longueur du segment
         n = int(length/self.dt) # Détermine le nombre de points intermédiaires en fonction de la longueur du segment et de la précision voulu (delta T)
-        for i in range(0, n+2): # Du premier au dernier élément (avec en plus le point final)
+        for i in range(0, n): # Du premier au dernier élément (avec en plus le point final)
             n_dt = self.dt*i
 
             x = line[0][0] + ((segw*n_dt)/length) # calcule des coordonées du point suivant
@@ -201,26 +213,23 @@ class Figure:
             else:
                 points.append([x, y]) # Ajout du point (float)
 
-        return points # Renvoie une liste de tous les points du segment (pour une ligne uniquement)
+        return points.copy() # Renvoie une liste de tous les points du segment (pour une ligne uniquement)
 
     def GenerateAccuracyCircle(self, radius, O):
-        Ox, Oy = O # Origine du cercke
+        Ox, Oy = O # Origine du cercle
         d = 2 * radius
         r = radius
-        ox, oy = Ox-r, Oy # Premier point
-        offsetx, offsety = Ox - r, Oy - r # Décalage de l'origine
         pts = []
-        inter = (2*pi*self.dt) / (pi * d) # Angle d'intervalle entre deux points
+        inter = (2*self.dt) / d # Angle d'intervalle entre deux points
         alpha = 0 # Angle
         for i in range(int((pi * d)/self.dt)):
             alpha += inter # On incrémente l'angle
-            x = Ox - (r * cos(alpha)) # On calcule le point en question
-            y = Oy - (r * sin(alpha))
+            x = Ox + (r * cos(alpha)) # On calcule le point en question
+            y = Oy + (r * sin(alpha))
             if self.coords == 'int':
                 pts.append([int(x), int(y)]) # Ajout du point (int)
             else:
                 pts.append([x, y]) # Ajout du point (float)
-            ox, oy = x, y
 
         return pts.copy() # Renvoie la liste de points ainsi crée
 
@@ -233,20 +242,17 @@ class Figure:
         a, b = rx, ry
         d = 2 * r
         Ox, Oy = O # Origine de l'ellipse
-        ox, oy = Ox-r, Oy # Premier point
-        offsetx, offsety = Ox - r, Oy - r # Décalage de l'origine
         pts = []
-        inter = (2*pi*self.dt) / (pi * d) # Angle d'intervalle entre deux points (pour un cercle de rayon le demi grand axe)
+        inter = (2*self.dt) / d # Angle d'intervalle entre deux points (pour un cercle de rayon le demi grand axe)
         alpha = 0 # Angle
         for i in range(int((pi * d)/self.dt)):
             alpha += inter # On incrémente l'angle
-            x = Ox - ((a * b * cos(alpha))/sqrt((b**2 * cos(alpha) ** 2) + (a**2 * sin(alpha) ** 2))) # On calcule le point en question
-            y = Oy - ((a * b * sin(alpha))/sqrt((b**2 * cos(alpha) ** 2) + (a**2 * sin(alpha) ** 2)))
+            x = Ox + a * cos(alpha) # On calcule le point en question
+            y = Oy + b * sin(alpha)
             if self.coords == 'int':
                 pts.append([int(x), int(y)]) # Ajout du point (int)
             else:
                 pts.append([x, y]) # Ajout du point (float)
-            ox, oy = x, y
 
         return pts.copy() # Renvoie la liste de points ainsi crée
 
