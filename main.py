@@ -3,13 +3,10 @@ import pygame
 from generator import Figure
 from settings import *
 
-
 TWO_PI = pi * 2
-
 x = []
 time = 0
 path = []
-
 
 def init(drawing):
     for i in range(len(drawing)):
@@ -65,7 +62,7 @@ figure = Figure(config['dp'], 'int', None)
 figure.open(config['path'])
 
 fourierX = init(figure.points)
-nbvec = 0
+nbvec = 10
 
 while running:
     for event in pygame.event.get():
