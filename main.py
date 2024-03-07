@@ -30,8 +30,8 @@ def init(drawing):
     fourierX = temp
     return fourierX
 
-def epicycles(screen, x, y, rotation, fourier):
-  for i in range(len(fourier)):
+def epicycles(screen, x, y, rotation, fourier, nbvec):
+  for i in range(nbvec):
     prevx = x
     prevy = y
     freq = fourier[i][2]
@@ -61,6 +61,7 @@ figure = Figure(config['dp'], 'int', None)
 figure.open(config['path'])
 
 fourierX = init(figure.points)
+nbvec = 0
 
 while running:
     for event in pygame.event.get():
@@ -69,10 +70,16 @@ while running:
     screen.fill([255, 255, 255])
 
     # render
-    x, y = epicycles(screen, 0, 0, 0, fourierX)
+    x, y = epicycles(screen, 0, 0, 0, fourierX, nbvec)
     path.append([x, y])
     for i in path:
         pygame.draw.rect(screen, [0, 0, 0], [i[0], i[1], 1, 1])
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w] and nbvec < len(fourierX):
+        nbvec += 1
+    if keys[pygame.K_s] and nbvec > 0:
+        nbvec -= 1
 
 
 
@@ -88,3 +95,7 @@ while running:
     clock.tick(60)
 
 pygame.quit()
+
+
+
+
