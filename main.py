@@ -55,6 +55,8 @@ config = s.wait()
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+programIcon = pygame.image.load('icon.png')
+pygame.display.set_icon(programIcon)
 clock = pygame.time.Clock()
 running = True
 
