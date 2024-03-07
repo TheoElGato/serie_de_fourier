@@ -62,7 +62,7 @@ figure = Figure(config['dp'], 'int', None)
 figure.open(config['path'])
 
 fourierX = init(figure.points)
-nbvec = 10
+nbvec = 0
 
 while running:
     for event in pygame.event.get():

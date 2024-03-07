@@ -80,6 +80,7 @@ class Settings:
 
         self.master = Tk()
         self.master.title('Configuration')
+        self.master.iconbitmap('icon.ico')
         self.master.resizable(False, False)
         self.master.protocol('WM_DELETE_WINDOW', self.Quitter)
 
